@@ -104,7 +104,7 @@ namespace HS2_SexRobotController
         private SerialPort serialPort;
         private Stopwatch sw = Stopwatch.StartNew();
         private ConfigEntry<KeyboardShortcut> toggleSerialPortConnection { get; set; }
-        public string[] serialPorts = { "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9", "COM10"};
+        public string[] serialPorts = { "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9", "COM10", "COM11", "COM12" };
         public ConfigEntry<string> serialPortConfig;
         public ConfigEntry<float> sexRobotUpdateFrequencyConfig;
         public ConfigEntry<bool> diagnosticsConfig;
