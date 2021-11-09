@@ -75,7 +75,7 @@ The T-Code format and open source sex robots (OSR2, OSR2+, SR6) were all created
 |Thrust Behind|VAGINAL|Yes|
 |Lifting|VAGINAL|Yes|
 |Reverse Lifting|VAGINAL|Yes|
-|Thighjob|(in progress)|No|
+|Thighjob|INTERCRURAL|Yes|
 |Stockade|VAGINAL|Yes|
 |Wall-Facing Behind|VAGINAL|Yes|
 |Wall-Facing Anal|ANAL|Yes|
@@ -115,9 +115,9 @@ The T-Code format and open source sex robots (OSR2, OSR2+, SR6) were all created
 |Cowgirl|VAGINAL|Yes|
 |Reverse Cowgirl|VAGINAL|Yes|
 |Reverse Piledriver|VAGINAL|Yes|
-|Cowgirl Intercrural|(in progress)|No|
-|Handjob Intercrural|(in progress)|No|
-|Chair Intercrural|(in progress)|No|
+|Cowgirl Intercrural|INTERCRURAL|Yes|
+|Handjob Intercrural|INTERCRURAL|Yes|
+|Chair Intercrural|INTERCRURAL|Yes|
 |Piledriver Rev. Cowgirl|VAGINAL|Yes|
 |Standing|VAGINAL|Yes|
 |Anal Reverse Cowgirl|ANAL|Yes|
@@ -131,8 +131,8 @@ The T-Code format and open source sex robots (OSR2, OSR2+, SR6) were all created
 |W Cowgirl (swap)|VAGINALSWAP|Yes|
 |W Blowjob|ORAL|Yes|
 |W Blowjob (swap)|ORALSWAP|Yes|
-|Intercrural Sandwich|(in progress)|No|
-|Interc. Sandwich (swap)|(in progress)|No|
+|Intercrural Sandwich|INTERCRURAL|Yes|
+|Interc. Sandwich (swap)|INTERCRURAL|Yes|
 |Insertion + Fingering|VAGINAL|Yes|
 |Insert. + Fing. (swap)|VAGINALSWAP|Yes|
 |W Handjob Licking|RIGHTHANDSWAP|Yes|
