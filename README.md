@@ -143,4 +143,4 @@ The T-Code format and open source sex robots (OSR2, OSR2+, SR6) were all created
 #### Honey Select 2 Special HScene Category
 |Animation Name|Female Target Type|Supported|
 |---|---|---|
-|69|ORA|Yes|
+|69|ORAL|Yes|
