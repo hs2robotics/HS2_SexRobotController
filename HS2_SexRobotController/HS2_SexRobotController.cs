@@ -21,7 +21,7 @@ namespace HS2_SexRobotController
     {
         public const string pluginGUID = "hs2robotics.HS2SexRobotController";
         public const string pluginName = "HS2_SexRobotController";
-        public const string pluginVersion = "1.2";
+        public const string pluginVersion = "1.3";
 
         public static HScene hScene;
         public bool inHScene = false;
@@ -29,26 +29,30 @@ namespace HS2_SexRobotController
         public ChaControl[] males;
         public static bool animationChanged = false;
         public static string animationName = "";
-        Transform malePenisBase;
-        Transform malePenisTip;
-        Transform malePenisLeftBall;
-        Transform malePenisRightBall;
-        Transform femaleMouthLipsUpper;
-        Transform femaleMouthLipsLower;
-        Transform femaleMouthLeft;
-        Transform femaleMouthRight;
-        Transform femaleHip;
-        Transform femaleVagina;
-        Transform femaleAnus;
-        Transform femaleMiddleBreastsLeft;
-        Transform femaleMiddleBreastsRight;
-        Transform femaleBreasts;
-        Transform femaleMiddleFingerLeft;
-        Transform femaleRingFingerLeft;
-        Transform femaleHandLeft;
-        Transform femaleMiddleFingerRight;
-        Transform femaleRingFingerRight;
-        Transform femaleHandRight;
+        public Transform malePenisBase;
+        public Transform malePenisTip;
+        public Transform malePenisLeftBall;
+        public Transform malePenisRightBall;
+        public Transform femaleMouthLipsUpper;
+        public Transform femaleMouthLipsLower;
+        public Transform femaleMouthLeft;
+        public Transform femaleMouthRight;
+        public Transform femaleHip;
+        public Transform femaleVagina;
+        public Transform femaleAnus;
+        public Transform femaleMiddleBreastsLeft;
+        public Transform femaleMiddleBreastsRight;
+        public Transform femaleBreasts;
+        public Transform femaleMiddleFingerLeft;
+        public Transform femaleRingFingerLeft;
+        public Transform femaleHandLeft;
+        public Transform femaleMiddleFingerRight;
+        public Transform femaleRingFingerRight;
+        public Transform femaleHandRight;
+        public Transform femaleLegLeft;
+        public Transform femaleKneeLeft;
+        public Transform femaleLegRight;
+        public Transform femaleKneeRight;
 
         public enum femaleTargetType
         {
@@ -58,9 +62,11 @@ namespace HS2_SexRobotController
             BREASTS,
             LEFTHAND,
             RIGHTHAND,
+            INTERCRURAL,
             VAGINALSWAP,
             ORALSWAP,
-            RIGHTHANDSWAP
+            RIGHTHANDSWAP,
+            INTERCRURALSWAP
         }
 
         femaleTargetType currentFemaleTargetType;
@@ -121,7 +127,7 @@ namespace HS2_SexRobotController
             {"Thrust Behind", femaleTargetType.VAGINAL},
             {"Lifting", femaleTargetType.VAGINAL},
             {"Reverse Lifting", femaleTargetType.VAGINAL},
-            //{"Thighjob", femaleTargetType.},
+            {"Thighjob", femaleTargetType.INTERCRURAL},
             {"Stockade", femaleTargetType.VAGINAL},
             {"Wall-Facing Behind", femaleTargetType.VAGINAL},
             {"Wall-Facing Anal", femaleTargetType.ANAL},
@@ -148,7 +154,6 @@ namespace HS2_SexRobotController
             {"Mating Press", femaleTargetType.VAGINAL},
 
             // Honey Select 2 Woman-led HScene Category
-            //{"Face Sit Cunnilingus", femaleTargetType.},
             {"Nipple Licking Blowjob", femaleTargetType.RIGHTHAND},
             {"Rimjob + Handjob", femaleTargetType.RIGHTHAND},
             //{"Standing Footjob", femaleTargetType.},
@@ -159,9 +164,9 @@ namespace HS2_SexRobotController
             //{"Cowgirl", femaleTargetType.VAGINAL}, // Already in the Dictionary above
             //{"Reverse Cowgirl", femaleTargetType.VAGINAL}, // Already in the Dictionary above
             {"Reverse Piledriver", femaleTargetType.VAGINAL},
-            //{"Cowgirl Intercrural", femaleTargetType.},
-            //{"Handjob Intercrural", femaleTargetType.},
-            //{"Chair Intercrural", femaleTargetType.},
+            {"Cowgirl Intercrural", femaleTargetType.INTERCRURAL},
+            {"Handjob Intercrural", femaleTargetType.INTERCRURAL},
+            {"Chair Intercrural", femaleTargetType.INTERCRURAL},
             {"Piledriver Rev. Cowgirl", femaleTargetType.VAGINAL},
             //{"Standing", femaleTargetType.VAGINAL}, // Already in the Dictionary above
             {"Anal Reverse Cowgirl", femaleTargetType.ANAL},
@@ -173,8 +178,8 @@ namespace HS2_SexRobotController
             {"W Cowgirl (swap)", femaleTargetType.VAGINALSWAP},
             {"W Blowjob", femaleTargetType.ORAL},
             {"W Blowjob (swap)", femaleTargetType.ORALSWAP},
-            //{"Intercrural Sandwich", femaleTargetType.},
-            //{"Interc. Sandwich (swap)", femaleTargetType.},
+            {"Intercrural Sandwich", femaleTargetType.INTERCRURAL},
+            {"Interc. Sandwich (swap)", femaleTargetType.INTERCRURALSWAP},
             {"Insertion + Fingering", femaleTargetType.VAGINAL},
             {"Insert. + Fing. (swap)", femaleTargetType.VAGINALSWAP},
             {"W Handjob Licking", femaleTargetType.RIGHTHANDSWAP},
@@ -581,11 +586,23 @@ namespace HS2_SexRobotController
                                 // Get the female's right hand's center
                                 femaleHandRight = females[0].GetComponentsInChildren<Transform>().Where(x => x.name == "N_Hand_R").FirstOrDefault();
                             }
+                            else if (currentFemaleTargetType == femaleTargetType.INTERCRURAL)
+                            {
+                                // Find/set all the female transforms needed for the INTERCRURAL calculations here so it doesn't have to happen each FixedUpdate()
+                                // Get the base of the female's hip
+                                femaleHip = females[0].GetComponentsInChildren<Transform>().Where(x => x.name == "cf_J_Kosi02").FirstOrDefault();
+
+                                // Get the base of the female's vagina
+                                femaleVagina = females[0].GetComponentsInChildren<Transform>().Where(x => x.name == "cf_J_Kokan").FirstOrDefault();
+
+                                // Get the base of the female's anus
+                                femaleAnus = females[0].GetComponentsInChildren<Transform>().Where(x => x.name == "cf_J_Ana").FirstOrDefault();
+                            }
                             else if (currentFemaleTargetType == femaleTargetType.VAGINALSWAP)
                             {
                                 if (females.Length == 2)
                                 {
-                                    // Find/set all the female transforms needed for the VAGINAL calculations here so it doesn't have to happen each FixedUpdate()
+                                    // Find/set all the female transforms needed for the VAGINALSWAP calculations here so it doesn't have to happen each FixedUpdate()
                                     // Get the base of the female's hip
                                     femaleHip = females[1].GetComponentsInChildren<Transform>().Where(x => x.name == "cf_J_Kosi02").FirstOrDefault();
 
@@ -604,7 +621,7 @@ namespace HS2_SexRobotController
                             {
                                 if (females.Length == 2)
                                 {
-                                    // Find/set all the female transforms needed for the ORAL calculations here so it doesn't have to happen each FixedUpdate()
+                                    // Find/set all the female transforms needed for the ORALSWAP calculations here so it doesn't have to happen each FixedUpdate()
                                     // Get the female's mouth upper lips
                                     femaleMouthLipsUpper = females[1].GetComponentsInChildren<Transform>().Where(x => x.name == "cf_J_Mouthup").FirstOrDefault();
 
@@ -626,15 +643,34 @@ namespace HS2_SexRobotController
                             {
                                 if (females.Length == 2)
                                 {
-                                    // Find/set all the female transforms needed for the RIGHTHAND calculations here so it doesn't have to happen each FixedUpdate()
+                                    // Find/set all the female transforms needed for the RIGHTHANDSWAP calculations here so it doesn't have to happen each FixedUpdate()
                                     // Get the female's right hand's middle finger
-                                        femaleMiddleFingerRight = females[1].GetComponentsInChildren<Transform>().Where(x => x.name == "N_Middle_R").FirstOrDefault();
+                                    femaleMiddleFingerRight = females[1].GetComponentsInChildren<Transform>().Where(x => x.name == "N_Middle_R").FirstOrDefault();
 
                                     // Get the female's right hand's ring fingers
                                     femaleRingFingerRight = females[1].GetComponentsInChildren<Transform>().Where(x => x.name == "N_Ring_R").FirstOrDefault();
 
                                     // Get the female's right hand's center
                                     femaleHandRight = females[1].GetComponentsInChildren<Transform>().Where(x => x.name == "N_Hand_R").FirstOrDefault();
+                                }
+                                else
+                                {
+                                    Logger.LogInfo("Error: The current HScene (swap) doesn't have 2 females.");
+                                }
+                            }
+                            else if (currentFemaleTargetType == femaleTargetType.INTERCRURALSWAP)
+                            {
+                                if (females.Length == 2)
+                                {
+                                    // Find/set all the female transforms needed for the INTERCRURALSWAP calculations here so it doesn't have to happen each FixedUpdate()
+                                    // Get the base of the female's hip
+                                    femaleHip = females[1].GetComponentsInChildren<Transform>().Where(x => x.name == "cf_J_Kosi02").FirstOrDefault();
+
+                                    // Get the base of the female's vagina
+                                    femaleVagina = females[1].GetComponentsInChildren<Transform>().Where(x => x.name == "cf_J_Kokan").FirstOrDefault();
+
+                                    // Get the base of the female's anus
+                                    femaleAnus = females[1].GetComponentsInChildren<Transform>().Where(x => x.name == "cf_J_Ana").FirstOrDefault();
                                 }
                                 else
                                 {
@@ -798,6 +834,22 @@ namespace HS2_SexRobotController
 
                             // Vector from the female's hand to the male's penis's base
                             femaleTargetToMalePenisBase = femaleHandRight.position - malePenisBase.position;
+                        }
+                        else if (currentFemaleTargetType == femaleTargetType.INTERCRURAL || currentFemaleTargetType == femaleTargetType.INTERCRURALSWAP)
+                        {
+                            // Vector from the selected female's vagina to anus
+                            femaleTargetXAxis = femaleVagina.position - femaleAnus.position;
+
+                            // Use the female's vagina and hip vector and the female's anus to establish the Z reference axis
+                            femaleTargetZAxis = Vector3.Cross(femaleTargetXAxis, femaleHip.position - femaleVagina.position);
+                            femaleTargetZAxis = (femaleTargetXAxis.magnitude / femaleTargetZAxis.magnitude) * femaleTargetZAxis;
+
+                            // Use the reference X and Z axes to establish the orthogonal Y axis
+                            femaleTargetYAxis = Vector3.Cross(femaleTargetXAxis, femaleTargetZAxis);
+                            femaleTargetYAxis = (femaleTargetXAxis.magnitude / femaleTargetYAxis.magnitude) * femaleTargetYAxis;
+
+                            // Vector from the female's vagina to the male's penis's base
+                            femaleTargetToMalePenisBase = femaleVagina.position - malePenisBase.position;
                         }
 
                         // Calculate X(L0) for robot based on the reference X axis and the vector from the female's vagina's labia trigger to the male's penis's base collider
