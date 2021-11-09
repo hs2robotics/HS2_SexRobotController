@@ -21,7 +21,7 @@ namespace HS2_SexRobotController
     {
         public const string pluginGUID = "hs2robotics.HS2SexRobotController";
         public const string pluginName = "HS2_SexRobotController";
-        public const string pluginVersion = "1.1";
+        public const string pluginVersion = "1.2";
 
         public static HScene hScene;
         public bool inHScene = false;
@@ -57,7 +57,10 @@ namespace HS2_SexRobotController
             ORAL,
             BREASTS,
             LEFTHAND,
-            RIGHTHAND
+            RIGHTHAND,
+            VAGINALSWAP,
+            ORALSWAP,
+            RIGHTHANDSWAP
         }
 
         femaleTargetType currentFemaleTargetType;
@@ -65,49 +68,137 @@ namespace HS2_SexRobotController
         public Dictionary<string, femaleTargetType> animationFemaleTargetDictionary = new Dictionary<string, femaleTargetType>
         {
             // Schema: {ANIMATION NAME, FEMALE TARGET(S) TO USE IN REGARD TO MAPPING TO THE MALE'S PENIS TARGET}
+
+            // Honey Select 2 Service HScene Category
             {"Blowjob", femaleTargetType.ORAL},
             {"Handjob", femaleTargetType.LEFTHAND},
+            //{"Glans Tease", femaleTargetType.},
             {"Boobjob", femaleTargetType.BREASTS},
+            {"Licking Boobjob", femaleTargetType.BREASTS},
+            {"Sucking Boobjob", femaleTargetType.BREASTS},
+            {"Exhausted Handjob", femaleTargetType.RIGHTHAND},
+            {"Exhausted Blowjob", femaleTargetType.ORAL},
             {"Standing Handjob", femaleTargetType.RIGHTHAND},
+            //{"No-Hands Tip Licking", femaleTargetType.},
+            {"No-Hands Blowjob", femaleTargetType.ORAL},
+            {"Deepthroat", femaleTargetType.ORAL},
+            {"Standing Boobjob", femaleTargetType.BREASTS},
+            {"Stand. Lick. Boobjob", femaleTargetType.BREASTS},
+            {"Restrained Blowjob", femaleTargetType.ORAL},
+            {"Forced Handjob", femaleTargetType.RIGHTHAND},
             {"Irrumatio", femaleTargetType.ORAL},
             {"Chair Handjob", femaleTargetType.LEFTHAND},
+            {"Sit. No-Hand Blowjob", femaleTargetType.ORAL},
             {"Sitting Boobjob", femaleTargetType.BREASTS},
+            {"Sitting Licking Boobjob", femaleTargetType.BREASTS},
             {"Wall-Trapped Blowjob", femaleTargetType.ORAL},
+            {"Crouching Blowjob", femaleTargetType.ORAL},
             {"Desk Handjob", femaleTargetType.RIGHTHAND},
+            {"Behind Handjob", femaleTargetType.LEFTHAND},
+            {"Sleeping Boobjob", femaleTargetType.BREASTS},
+            {"Wall Irramatio", femaleTargetType.ORAL},
+            {"Chair Irramatio", femaleTargetType.ORAL},
+            {"Pet Blowjob", femaleTargetType.ORAL},
+            
+            // Honey Select 2 Insert HScene Category
             {"Missionary", femaleTargetType.VAGINAL},
+            {"Breast Grope Missionary", femaleTargetType.VAGINAL},
             {"Doggy", femaleTargetType.VAGINAL},
+            {"Kneeling Behind", femaleTargetType.VAGINAL},
             {"Spooning", femaleTargetType.VAGINAL},
             {"Cowgirl", femaleTargetType.VAGINAL},
+            {"Chest Grope Cowgirl", femaleTargetType.VAGINAL},
             {"Reverse Cowgirl", femaleTargetType.VAGINAL},
+            {"Piledriver Missionary", femaleTargetType.VAGINAL},
+            {"Bent Missionary", femaleTargetType.VAGINAL},
+            {"Double Decker", femaleTargetType.VAGINAL},
             {"Anal Missionary", femaleTargetType.ANAL},
             {"Anal Doggy", femaleTargetType.ANAL},
+            {"Floor Bondage Miss.", femaleTargetType.VAGINAL},
+            {"Forced Missionary", femaleTargetType.VAGINAL},
+            {"Standing", femaleTargetType.VAGINAL},
             {"Standing Behind", femaleTargetType.VAGINAL},
+            {"Thrust Behind", femaleTargetType.VAGINAL},
             {"Lifting", femaleTargetType.VAGINAL},
+            {"Reverse Lifting", femaleTargetType.VAGINAL},
+            //{"Thighjob", femaleTargetType.},
+            {"Stockade", femaleTargetType.VAGINAL},
             {"Wall-Facing Behind", femaleTargetType.VAGINAL},
+            {"Wall-Facing Anal", femaleTargetType.ANAL},
+            {"Chair Sitting Behind", femaleTargetType.VAGINAL},
+            {"Anal Doggy on Chair", femaleTargetType.ANAL},
             {"Desk Missionary", femaleTargetType.VAGINAL},
+            {"Desk on Side", femaleTargetType.VAGINAL},
             {"Desk Doggy", femaleTargetType.ANAL},
             {"Against Counter Behind", femaleTargetType.VAGINAL},
+            {"Wall-Trapped Doggy", femaleTargetType.VAGINAL},
             {"Crouch Insertion", femaleTargetType.VAGINAL},
             {"Delivery Table Insert", femaleTargetType.VAGINAL},
             {"Hanging", femaleTargetType.VAGINAL},
+            {"Tied Up Insertion", femaleTargetType.VAGINAL},
+            {"Lying Doggystyle", femaleTargetType.VAGINAL},
+            {"Anal Piledriver Miss.", femaleTargetType.ANAL},
+            {"Face to Face Sitting", femaleTargetType.VAGINAL},
+            {"Chest Grope Sit Behind", femaleTargetType.VAGINAL},
+            {"Sitting Hugging", femaleTargetType.VAGINAL},
             {"Restrained Standing", femaleTargetType.VAGINAL},
             {"Clinging Lifting", femaleTargetType.VAGINAL},
             {"Wall-Pressed Behind", femaleTargetType.VAGINAL},
+            {"Pet Sex", femaleTargetType.VAGINAL},
             {"Mating Press", femaleTargetType.VAGINAL},
+
+            // Honey Select 2 Woman-led HScene Category
+            //{"Face Sit Cunnilingus", femaleTargetType.},
+            {"Nipple Licking Blowjob", femaleTargetType.RIGHTHAND},
+            {"Rimjob + Handjob", femaleTargetType.RIGHTHAND},
+            //{"Standing Footjob", femaleTargetType.},
+            //{"Sitting Footjob", femaleTargetType.},
             {"All Fours Handjob", femaleTargetType.RIGHTHAND},
-            {"Restrained Blowjob", femaleTargetType.ORAL},
+            //{"Restrained Blowjob", femaleTargetType.ORAL}, // Already in the Dictionary above
+            //{"Chair Restraint Footjob", femaleTargetType.},
+            //{"Cowgirl", femaleTargetType.VAGINAL}, // Already in the Dictionary above
+            //{"Reverse Cowgirl", femaleTargetType.VAGINAL}, // Already in the Dictionary above
+            {"Reverse Piledriver", femaleTargetType.VAGINAL},
+            //{"Cowgirl Intercrural", femaleTargetType.},
+            //{"Handjob Intercrural", femaleTargetType.},
+            //{"Chair Intercrural", femaleTargetType.},
             {"Piledriver Rev. Cowgirl", femaleTargetType.VAGINAL},
+            //{"Standing", femaleTargetType.VAGINAL}, // Already in the Dictionary above
+            {"Anal Reverse Cowgirl", femaleTargetType.ANAL},
             {"Male Restrained Stand", femaleTargetType.VAGINAL},
-            {"Chair Restraint Sitting", femaleTargetType.VAGINAL}
+            {"Chair Restraint Sitting", femaleTargetType.VAGINAL},
+
+            // Honey Select 2 Female Group HScene Category
+            {"W Cowgirl", femaleTargetType.VAGINAL},
+            {"W Cowgirl (swap)", femaleTargetType.VAGINALSWAP},
+            {"W Blowjob", femaleTargetType.ORAL},
+            {"W Blowjob (swap)", femaleTargetType.ORALSWAP},
+            //{"Intercrural Sandwich", femaleTargetType.},
+            //{"Interc. Sandwich (swap)", femaleTargetType.},
+            {"Insertion + Fingering", femaleTargetType.VAGINAL},
+            {"Insert. + Fing. (swap)", femaleTargetType.VAGINALSWAP},
+            {"W Handjob Licking", femaleTargetType.RIGHTHANDSWAP},
+            {"W Handjob Lick. (swap)", femaleTargetType.RIGHTHAND},
+            {"Sitting+Cunilingus", femaleTargetType.VAGINAL},
+            {"Sit+Cunilingus (swap)", femaleTargetType.VAGINALSWAP},
+
+            // Honey Select 2 Special HScene Category
+            {"69", femaleTargetType.ORAL}
         };
 
         private SerialPort serialPort;
         private Stopwatch sw = Stopwatch.StartNew();
         private ConfigEntry<KeyboardShortcut> toggleSerialPortConnection { get; set; }
-        public string[] serialPorts = { "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9", "COM10", "COM11", "COM12" };
+        private ConfigEntry<KeyboardShortcut> strokeLengthMultiplierIncrease { get; set; }
+        private ConfigEntry<KeyboardShortcut> strokeLengthMultiplierDecrease { get; set; }
+        public string[] serialPorts = { "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9", "COM10", "COM11", "COM12", "COM13", "COM14", "COM15", "COM16", "COM17", "COM18", "COM19", "COM20", "COM21", "COM22", "COM23", "COM24", "COM25", "COM26", "COM27", "COM28", "COM29", "COM30" };
         public ConfigEntry<string> serialPortConfig;
         public ConfigEntry<float> sexRobotUpdateFrequencyConfig;
+        public ConfigEntry<string> serialPortStatus;
+        public ConfigEntry<bool> serialPortConnected;
         public ConfigEntry<bool> diagnosticsConfig;
+        public ConfigEntry<float> robotL0Multiplier;
+        public ConfigEntry<float> robotL0MultiplierStepValue;
         public ConfigEntry<float> robotL0Min;
         public ConfigEntry<float> robotL0Max;
         public ConfigEntry<float> robotL1Min;
@@ -120,6 +211,9 @@ namespace HS2_SexRobotController
         public ConfigEntry<float> robotR1Max;
         public ConfigEntry<float> robotR2Min;
         public ConfigEntry<float> robotR2Max;
+        public float autoRangeMin;
+        public float autoRangeMid;
+        public float autoRangeMax;
         public static bool updateRobotPosition = false;
 
         public void Awake()
@@ -128,6 +222,10 @@ namespace HS2_SexRobotController
 
             // Setup config file entries used in the in game menu
             // Creates a config file in BepInEx/config named hs2robotics.HS2SexRobotController.cfg
+            strokeLengthMultiplierIncrease = Config.Bind("Sex Robot Limits", "Increase Stroke Multiplier", new KeyboardShortcut(KeyCode.Z));
+            strokeLengthMultiplierDecrease = Config.Bind("Sex Robot Limits", "Decrease Stroke Multiplier", new KeyboardShortcut(KeyCode.X));
+            robotL0Multiplier = Config.Bind("Sex Robot Limits", "Sex Robot (L0) Stroke Multiplier", 1.0f, new ConfigDescription("Sex Robot (L0) Stroke Multiplier", new AcceptableValueRange<float>(0.25f, 10.0f)));
+            robotL0MultiplierStepValue = Config.Bind("Sex Robot Limits", "Sex Robot (L0) Stroke Multiplier Step Value", 0.25f, new ConfigDescription("Sex Robot (L0) Stroke Multiplier Step Value", new AcceptableValueRange<float>(0.01f, 1.0f)));
             robotL0Min = Config.Bind("Sex Robot Limits", "Sex Robot (L0) Up/Down Min", 0.0f, new ConfigDescription("Sex Robot (L0) Up/Down Min", new AcceptableValueRange<float>(0.0f, 0.5f)));
             robotL0Max = Config.Bind("Sex Robot Limits", "Sex Robot (L0) Up/Down Max", 1.0f, new ConfigDescription("Sex Robot (L0) Up/Down Max", new AcceptableValueRange<float>(0.5f, 1.0f)));
             robotL1Min = Config.Bind("Sex Robot Limits", "Sex Robot (L1) Forward/Backward Min", 0.0f, new ConfigDescription("Sex Robot (L1) Forward/Backward Min", new AcceptableValueRange<float>(0.0f, 0.5f)));
@@ -143,7 +241,15 @@ namespace HS2_SexRobotController
             toggleSerialPortConnection = Config.Bind("Sex Robot Connection", "Connect/Disconnect Sex Robot Hotkey", new KeyboardShortcut(KeyCode.S, KeyCode.LeftShift));
             (serialPortConfig = Config.Bind("Sex Robot Connection", "Serial Port For Sex Robot", serialPorts[2], new ConfigDescription("SerialPorts", new AcceptableValueList<string>(serialPorts)))).SettingChanged += (s, e) => { UpdateSerialPort(); };
             sexRobotUpdateFrequencyConfig = Config.Bind("Sex Robot Connection", "Sex Robot Update Frequency", 30.0f, new ConfigDescription("SexRobotUpdateFrequencies", new AcceptableValueRange<float>(1.0f, 120.0f)));
-            diagnosticsConfig = Config.Bind("General", "Diagnostics/Debug Console Output", false);
+            serialPortStatus = Config.Bind("Sex Robot Connection", "Serial Port Status Information", "Serial Port is not connected.");
+            serialPortStatus.Value = serialPortConfig.Value + " port is disconnected.";
+            (serialPortConnected = Config.Bind("Sex Robot Connection", "Connection To Sex Robot Via Serial Port", false)).SettingChanged += (s, e) => { UpdateSerialPortConnection(); };
+            diagnosticsConfig = Config.Bind("General", "BepInEx Debug Console Output", false);
+
+            if (serialPortConnected.Value)
+            {
+                UpdateSerialPortConnection();
+            }
         }
 
         // Hook method to grab the HScene instance from
@@ -166,9 +272,9 @@ namespace HS2_SexRobotController
 
         public void UpdateSerialPort()
         {
-            Logger.LogInfo("Serial COM port changed to: " + serialPortConfig.Value);
+            serialPortConnected.Value = false;
 
-            bool connectSerialPort = false;
+            Logger.LogInfo("Serial COM port changed to: " + serialPortConfig.Value);
 
             if (serialPort != null)
             {
@@ -179,9 +285,7 @@ namespace HS2_SexRobotController
                         // Close the serial port connection
                         serialPort.Close();
 
-                        Logger.LogInfo("Serial port " + serialPort.PortName + " is closed.");
-
-                        connectSerialPort = true;
+                        Logger.LogInfo("Serial port " + serialPort.PortName + " has been disconnected.");
                     }
                     catch (Exception e)
                     {
@@ -190,12 +294,42 @@ namespace HS2_SexRobotController
                 }
             }
 
-            // Setup COM port based on updated config selection
-            serialPort = new SerialPort("\\\\.\\" + serialPortConfig.Value, 115200);
+            serialPortStatus.Value = serialPortConfig.Value + " port is disconnected.";
+        }
 
-            // Reconnect since the serial port was already open before the COM port config selection changed
-            if (connectSerialPort)
+        public void UpdateSerialPortConnection()
+        {
+            // Disconnect serial port if currently connected
+            if (serialPort != null)
             {
+                if (serialPort.IsOpen)
+                {
+                    try
+                    {
+                        // Close the serial port connection
+                        serialPort.Close();
+
+                        serialPortStatus.Value = serialPort.PortName + " port is disconnected.";
+
+                        Logger.LogInfo("Serial port " + serialPort.PortName + " has been disconnected.");
+                    }
+                    catch (Exception e)
+                    {
+                        serialPortStatus.Value = serialPort.PortName + " port is disconnected.";
+
+                        Logger.LogInfo("Serial port " + serialPort.PortName + " has been disconnected.");
+
+                        Logger.LogInfo("Error: " + e.ToString());
+                    }
+                }
+            }
+
+            // Connect to serial port
+            if (serialPortConnected.Value)
+            {
+                // Setup COM port based on updated config selection
+                serialPort = new SerialPort("\\\\.\\" + serialPortConfig.Value, 115200);
+
                 try
                 {
                     // Open the serial port connection
@@ -203,15 +337,27 @@ namespace HS2_SexRobotController
 
                     if (serialPort.IsOpen)
                     {
-                        Logger.LogInfo("Serial port " + serialPort.PortName + " is open.");
+                        serialPortStatus.Value = "Connected to serial port " + serialPortConfig.Value + ".";
+
+                        serialPortConnected.Value = true;
+
+                        Logger.LogInfo("Connected to serial port " + serialPort.PortName + ".");
                     }
                     else
                     {
-                        Logger.LogInfo("Serial port " + serialPort.PortName + " is closed.");
+                        serialPortStatus.Value = "Error connecting to serial port " + serialPortConfig.Value + ".";
+
+                        serialPortConnected.Value = false;
+
+                        Logger.LogInfo("Error connecting to serial port " + serialPort.PortName + ".");
                     }
                 }
                 catch (Exception e)
                 {
+                    serialPortStatus.Value = "Error connecting to serial port " + serialPortConfig.Value + ".";
+
+                    serialPortConnected.Value = false;
+
                     Logger.LogInfo("Error: " + e.ToString());
                 }
             }
@@ -219,9 +365,20 @@ namespace HS2_SexRobotController
 
         public void FixedUpdate()
         {
-            if (hScene == null)
+            // Check if increase stroke multiplier hotkey was pressed
+            if (strokeLengthMultiplierIncrease.Value.IsDown())
             {
-                return;
+                robotL0Multiplier.Value += robotL0MultiplierStepValue.Value;
+
+                Logger.LogInfo("Stroke multiplier: " + robotL0Multiplier.Value);
+            }
+
+            // Check if decrease stroke multiplier hotkey was pressed
+            if (strokeLengthMultiplierDecrease.Value.IsDown())
+            {
+                robotL0Multiplier.Value -= robotL0MultiplierStepValue.Value;
+
+                Logger.LogInfo("Stroke multiplier: " + robotL0Multiplier.Value);
             }
 
             // Check if serial port connection toggle hotkey was pressed and toggle the serial port on/off if so
@@ -235,13 +392,21 @@ namespace HS2_SexRobotController
                     {
                         try
                         {
+                            serialPortConnected.Value = false;
+
+                            serialPortStatus.Value = serialPort.PortName + " port is disconnected.";
+
                             // Close the serial port connection
                             serialPort.Close();
 
-                            Logger.LogInfo("Serial port " + serialPort.PortName + " is closed.");
+                            Logger.LogInfo("Serial port " + serialPort.PortName + " has been disconnected.");
                         }
                         catch (Exception e)
                         {
+                            serialPortStatus.Value = serialPort.PortName + " port is disconnected.";
+
+                            Logger.LogInfo("Serial port " + serialPort.PortName + " has been disconnected.");
+
                             Logger.LogInfo("Error: " + e.ToString());
                         }
                     }
@@ -267,18 +432,34 @@ namespace HS2_SexRobotController
 
                         if (serialPort.IsOpen)
                         {
-                            Logger.LogInfo("Serial port " + serialPort.PortName + " is open.");
+                            serialPortConnected.Value = true;
+
+                            serialPortStatus.Value = "Connected to serial port " + serialPortConfig.Value + ".";
+
+                            Logger.LogInfo("Connected to serial port " + serialPort.PortName + ".");
                         }
                         else
                         {
-                            Logger.LogInfo("Serial port " + serialPort.PortName + " is closed.");
+                            serialPortStatus.Value = "Error connecting to serial port " + serialPort.PortName + ".";
+
+                            Logger.LogInfo("Error connecting to serial port " + serialPort.PortName + ".");
                         }
                     }
                     catch (Exception e)
                     {
+                        serialPortStatus.Value = "Error connecting to serial port " + serialPort.PortName + ".";
+
+                        Logger.LogInfo("Error connecting to serial port " + serialPort.PortName + ".");
+
                         Logger.LogInfo("Error: " + e.ToString());
                     }
                 }
+            }
+
+            // Return if not in an HScene
+            if (hScene == null)
+            {
+                return;
             }
 
             // Get ms elapsed since current stopwatch interval
@@ -305,7 +486,7 @@ namespace HS2_SexRobotController
                             Logger.LogInfo("Males found: " + males.Length.ToString());
                         }
 
-                        if (males.Length == 1 && females.Length == 1)
+                        if (males.Length == 1 && females.Length > 0)
                         {
                             // Find/set all the male transforms needed for the calculations here so it doesn't have to happen each FixedUpdate()
                             // Get the base of the male's penis
@@ -400,6 +581,66 @@ namespace HS2_SexRobotController
                                 // Get the female's right hand's center
                                 femaleHandRight = females[0].GetComponentsInChildren<Transform>().Where(x => x.name == "N_Hand_R").FirstOrDefault();
                             }
+                            else if (currentFemaleTargetType == femaleTargetType.VAGINALSWAP)
+                            {
+                                if (females.Length == 2)
+                                {
+                                    // Find/set all the female transforms needed for the VAGINAL calculations here so it doesn't have to happen each FixedUpdate()
+                                    // Get the base of the female's hip
+                                    femaleHip = females[1].GetComponentsInChildren<Transform>().Where(x => x.name == "cf_J_Kosi02").FirstOrDefault();
+
+                                    // Get the base of the female's vagina
+                                    femaleVagina = females[1].GetComponentsInChildren<Transform>().Where(x => x.name == "cf_J_Kokan").FirstOrDefault();
+
+                                    // Get the base of the female's anus
+                                    femaleAnus = females[1].GetComponentsInChildren<Transform>().Where(x => x.name == "cf_J_Ana").FirstOrDefault();
+                                }
+                                else
+                                {
+                                    Logger.LogInfo("Error: The current HScene (swap) doesn't have 2 females.");
+                                }
+                            }
+                            else if (currentFemaleTargetType == femaleTargetType.ORALSWAP)
+                            {
+                                if (females.Length == 2)
+                                {
+                                    // Find/set all the female transforms needed for the ORAL calculations here so it doesn't have to happen each FixedUpdate()
+                                    // Get the female's mouth upper lips
+                                    femaleMouthLipsUpper = females[1].GetComponentsInChildren<Transform>().Where(x => x.name == "cf_J_Mouthup").FirstOrDefault();
+
+                                    // Get the female's mouth lower lips
+                                    femaleMouthLipsLower = females[1].GetComponentsInChildren<Transform>().Where(x => x.name == "cf_J_MouthLow").FirstOrDefault();
+
+                                    // Get the female's mouth left
+                                    femaleMouthLeft = females[1].GetComponentsInChildren<Transform>().Where(x => x.name == "cf_J_Mouth_L").FirstOrDefault();
+
+                                    // Get the female's mouth right
+                                    femaleMouthRight = females[1].GetComponentsInChildren<Transform>().Where(x => x.name == "cf_J_Mouth_R").FirstOrDefault();
+                                }
+                                else
+                                {
+                                    Logger.LogInfo("Error: The current HScene (swap) doesn't have 2 females.");
+                                }
+                            }
+                            else if (currentFemaleTargetType == femaleTargetType.RIGHTHANDSWAP)
+                            {
+                                if (females.Length == 2)
+                                {
+                                    // Find/set all the female transforms needed for the RIGHTHAND calculations here so it doesn't have to happen each FixedUpdate()
+                                    // Get the female's right hand's middle finger
+                                        femaleMiddleFingerRight = females[1].GetComponentsInChildren<Transform>().Where(x => x.name == "N_Middle_R").FirstOrDefault();
+
+                                    // Get the female's right hand's ring fingers
+                                    femaleRingFingerRight = females[1].GetComponentsInChildren<Transform>().Where(x => x.name == "N_Ring_R").FirstOrDefault();
+
+                                    // Get the female's right hand's center
+                                    femaleHandRight = females[1].GetComponentsInChildren<Transform>().Where(x => x.name == "N_Hand_R").FirstOrDefault();
+                                }
+                                else
+                                {
+                                    Logger.LogInfo("Error: The current HScene (swap) doesn't have 2 females.");
+                                }
+                            }
 
                             if (diagnosticsConfig.Value)
                             {
@@ -414,8 +655,11 @@ namespace HS2_SexRobotController
                         {
                             updateRobotPosition = false;
 
-                            Logger.LogInfo("Error: The current HScene does not have exactly 1 female and 1 male.");
+                            Logger.LogInfo("Error: The current HScene doesn't have 1 male and at least 1 female.");
                         }
+
+                        autoRangeMin = 1.0f;
+                        autoRangeMax = 0.0f;
                     }
 
                     if (updateRobotPosition)
@@ -450,7 +694,7 @@ namespace HS2_SexRobotController
                         Vector3 femaleTargetYAxis = new Vector3(0.0f, 0.0f, 0.0f);
                         Vector3 femaleTargetToMalePenisBase = new Vector3(0.0f, 0.0f, 0.0f);
 
-                        if (currentFemaleTargetType == femaleTargetType.VAGINAL)
+                        if (currentFemaleTargetType == femaleTargetType.VAGINAL || currentFemaleTargetType == femaleTargetType.VAGINALSWAP)
                         {
                             // Vector from the selected female's vagina to hip
                             femaleTargetXAxis = femaleHip.position - femaleVagina.position;
@@ -482,7 +726,7 @@ namespace HS2_SexRobotController
                             // Vector from the female's vagina to the male's penis's base
                             femaleTargetToMalePenisBase = femaleAnus.position - malePenisBase.position;
                         }
-                        else if (currentFemaleTargetType == femaleTargetType.ORAL)
+                        else if (currentFemaleTargetType == femaleTargetType.ORAL || currentFemaleTargetType == femaleTargetType.ORALSWAP)
                         {
                             // Calculate the center point between the two lips of the mouth
                             Vector3 femaleMouthLipsCenterPoint = (femaleMouthLipsUpper.position + femaleMouthLipsLower.position) / 2.0f;
@@ -539,7 +783,7 @@ namespace HS2_SexRobotController
                             // Vector from the female's hand to the male's penis's base
                             femaleTargetToMalePenisBase = femaleHandLeft.position - malePenisBase.position;
                         }
-                        else if (currentFemaleTargetType == femaleTargetType.RIGHTHAND)
+                        else if (currentFemaleTargetType == femaleTargetType.RIGHTHAND || currentFemaleTargetType == femaleTargetType.RIGHTHANDSWAP)
                         {
                             // Vector from the selected female's middle and ring fingers
                             femaleTargetXAxis = femaleMiddleFingerRight.position - femaleRingFingerRight.position;
@@ -594,7 +838,27 @@ namespace HS2_SexRobotController
 
                         float robotR2 = 0.5f + robotR2Angle / 180.0f;
 
-                        // Formulate T-Code v0.2 command string
+                        // Calculate automatic range values
+                        if (robotL0 >= 0.0f && robotL0 <= 1.0f)
+                        {
+                            if (robotL0 < autoRangeMin)
+                            {
+                                autoRangeMin = robotL0;
+                            }
+
+                            if (robotL0 > autoRangeMax)
+                            {
+                                autoRangeMax = robotL0;
+                            }
+                        }
+
+                        // Get the automatic range midpoint
+                        autoRangeMid = (autoRangeMin + autoRangeMax) / 2.0f;
+
+                        // Caclulate modified robotL0
+                        robotL0 = 0.5f + (robotL0 - autoRangeMid) * robotL0Multiplier.Value;
+
+                        // Formulate T-Code command string
                         string command = "L0" + GenerateTCode(robotL0, robotL0Min.Value, robotL0Max.Value) + "\n";
                         command += "L1" + GenerateTCode(robotL1, robotL1Min.Value, robotL1Max.Value) + "\n";
                         command += "L2" + GenerateTCode(robotL2, robotL2Min.Value, robotL2Max.Value) + "\n";
@@ -613,6 +877,7 @@ namespace HS2_SexRobotController
                             Logger.LogInfo("malePenisXAxis: " + malePenisXAxis.x.ToString() + ", " + malePenisXAxis.y.ToString() + ", " + malePenisXAxis.z.ToString());
                             Logger.LogInfo("malePenisZAxis: " + malePenisZAxis.x.ToString() + ", " + malePenisZAxis.y.ToString() + ", " + malePenisZAxis.z.ToString());
                             Logger.LogInfo("malePenisYAxis: " + malePenisYAxis.x.ToString() + ", " + malePenisYAxis.y.ToString() + ", " + malePenisYAxis.z.ToString());
+                            Logger.LogInfo("Robot L0 Multiplier: " + robotL0Multiplier.Value);
                             Logger.LogInfo("Robot L0: " + robotL0);
                             Logger.LogInfo("Robot L1: " + robotL1);
                             Logger.LogInfo("Robot L2: " + robotL2);
@@ -623,6 +888,10 @@ namespace HS2_SexRobotController
                             Logger.LogInfo("Robot R1 Angle: " + robotR1Angle);
                             Logger.LogInfo("Robot R2 Angle: " + robotR2Angle);
                             Logger.LogInfo("T-Code Command: \n" + command);
+                            Logger.LogInfo("autoRangeMin: " + autoRangeMin);
+                            Logger.LogInfo("autoRangeMid: " + autoRangeMid);
+                            Logger.LogInfo("autoRangeMax: " + autoRangeMax);
+                            Logger.LogInfo("robotL0 percent: " + (((robotL0 - autoRangeMin) / (autoRangeMax - autoRangeMin)) * 100.0f));
                         }
 
                         // Only update the sex robot's position/servos
