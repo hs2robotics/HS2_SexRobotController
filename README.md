@@ -1,5 +1,5 @@
 # HS2_SexRobotController
-Honey Select 2 Sex Robot Controller Plugin v1.3
+Honey Select 2 Sex Robot Controller Plugin v1.4
 
 ![HS2_SexRobotControllerConfigMenu](https://user-images.githubusercontent.com/93683226/140925711-6f79036d-284d-4cf5-b353-cdee4a8366ab.png)
 
