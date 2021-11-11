@@ -21,7 +21,7 @@ namespace HS2_SexRobotController
     {
         public const string pluginGUID = "hs2robotics.HS2SexRobotController";
         public const string pluginName = "HS2_SexRobotController";
-        public const string pluginVersion = "1.3";
+        public const string pluginVersion = "1.4";
 
         public static HScene hScene;
         public bool inHScene = false;
@@ -368,7 +368,7 @@ namespace HS2_SexRobotController
             }
         }
 
-        public void FixedUpdate()
+        public void Update()
         {
             // Check if increase stroke multiplier hotkey was pressed
             if (strokeLengthMultiplierIncrease.Value.IsDown())
