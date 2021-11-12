@@ -21,7 +21,7 @@ namespace HS2_SexRobotController
     {
         public const string pluginGUID = "hs2robotics.HS2SexRobotController";
         public const string pluginName = "HS2_SexRobotController";
-        public const string pluginVersion = "1.5";
+        public const string pluginVersion = "1.6";
 
         public static HScene hScene;
         public bool inHScene = false;
