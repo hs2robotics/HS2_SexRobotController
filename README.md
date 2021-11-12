@@ -1,7 +1,11 @@
 # HS2_SexRobotController
-Honey Select 2 Sex Robot Controller Plugin v1.4
+**Honey Select 2 Sex Robot Controller Plugin v1.5**
 
-![HS2_SexRobotControllerConfigMenu](https://user-images.githubusercontent.com/93683226/140925711-6f79036d-284d-4cf5-b353-cdee4a8366ab.png)
+**Main configuration menu accessed by hitting F1 and then clicking the Plugin settings button**
+![plugin](https://user-images.githubusercontent.com/93683226/141469348-13a16e15-cbf2-45cc-9ec7-334a3e93203e.png)
+
+**Quick access buttons (works in VR) to connect / disconnect your sex robot and to increase / decrease the stroke multiplier**
+![pluginmenu](https://user-images.githubusercontent.com/93683226/141469532-d0db17df-e333-477b-b0db-08027204de6f.png)
 
 This plugin outputs the positional data from a total of 100 (currently) of the 'HScenes' (sex scenes) in Honey Select 2 with full 6 degrees of freedom (6DOF) in a simple text format known as T-Code (Toy-Code) which is then sent over a serial link (COM port) to drive an open source sex robot (OSR2, OSR2+, SR6, etc).
 
