@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using AIChara;
@@ -11,7 +12,6 @@ using System.Diagnostics;
 using System.IO.Ports;
 using UnityEngine.UI;
 using IllusionUtility.GetUtility;
-using System.Reflection;
 
 namespace HS2_SexRobotController
 {
@@ -224,6 +224,14 @@ namespace HS2_SexRobotController
         public static bool buttonDisconnectRobotClicked = false;
         public static bool buttonStrokeMultiplierIncreaseClicked = false;
         public static bool buttonStrokeMultiplierDecreaseClicked = false;
+        public static Transform buttonConnectRobot;
+        public static Transform buttonDisconnectRobot;
+        public static Transform buttonStrokeMultiplierIncrease;
+        public static Transform buttonStrokeMultiplierDecrease;
+        public static Text buttonConnectRobotText;
+        public static Text buttonDisconnectRobotText;
+        public static Text buttonStrokeMultiplierIncreaseText;
+        public static Text buttonStrokeMultiplierDecreaseText;
 
         public void Awake()
         {
@@ -287,12 +295,12 @@ namespace HS2_SexRobotController
             Transform btnTitle = __instance.transform.FindLoop("btnTitle").transform;
 
             // Create connect robot button by instantiating main button, changing it's name, text label, and adding a new listener to handle click events
-            Transform newUIElement = Instantiate(btnTitle, btnTitle.parent);
-            newUIElement.name = "btnConnectRobot";
-            Text buttonText = newUIElement.GetComponentInChildren<Text>();
-            buttonText.text = "Connect Robot";
-            buttonText.fontSize = 18;
-            Button newButton = newUIElement.GetComponentInChildren<Button>();
+            buttonConnectRobot = Instantiate(btnTitle, btnTitle.parent);
+            buttonConnectRobot.name = "btnConnectRobot";
+            buttonConnectRobotText = buttonConnectRobot.GetComponentInChildren<Text>();
+            buttonConnectRobotText.text = "Connect Robot";
+            buttonConnectRobotText.fontSize = 18;
+            Button newButton = buttonConnectRobot.GetComponentInChildren<Button>();
             newButton.onClick = new Button.ButtonClickedEvent();
             newButton.onClick.AddListener(() =>
             {
@@ -300,12 +308,12 @@ namespace HS2_SexRobotController
             });
 
             // Create disconnect robot button by instantiating main button, changing it's name, text label, and adding a new listener to handle click events
-            newUIElement = Instantiate(btnTitle, btnTitle.parent);
-            newUIElement.name = "btnConnectRobot";
-            buttonText = newUIElement.GetComponentInChildren<Text>();
-            buttonText.text = "Disconnect Robot";
-            buttonText.fontSize = 18;
-            newButton = newUIElement.GetComponentInChildren<Button>();
+            buttonDisconnectRobot = Instantiate(btnTitle, btnTitle.parent);
+            buttonDisconnectRobot.name = "btnDisconnectRobot";
+            buttonDisconnectRobotText = buttonDisconnectRobot.GetComponentInChildren<Text>();
+            buttonDisconnectRobotText.text = "Disconnect Robot";
+            buttonDisconnectRobotText.fontSize = 18;
+            newButton = buttonDisconnectRobot.GetComponentInChildren<Button>();
             newButton.onClick = new Button.ButtonClickedEvent();
             newButton.onClick.AddListener(() =>
             {
@@ -313,12 +321,12 @@ namespace HS2_SexRobotController
             });
 
             // Create robot stroke multiplier increase button by instantiating main button, changing it's name, text label, and adding a new listener to handle click events
-            newUIElement = Instantiate(btnTitle, btnTitle.parent);
-            newUIElement.name = "btnConnectRobot";
-            buttonText = newUIElement.GetComponentInChildren<Text>();
-            buttonText.text = "Stroke Multiplier +";
-            buttonText.fontSize = 18;
-            newButton = newUIElement.GetComponentInChildren<Button>();
+            buttonStrokeMultiplierIncrease = Instantiate(btnTitle, btnTitle.parent);
+            buttonStrokeMultiplierIncrease.name = "btnStrokeMultiplierIncrease";
+            buttonStrokeMultiplierIncreaseText = buttonStrokeMultiplierIncrease.GetComponentInChildren<Text>();
+            buttonStrokeMultiplierIncreaseText.text = "Stroke Multiplier +";
+            buttonStrokeMultiplierIncreaseText.fontSize = 18;
+            newButton = buttonStrokeMultiplierIncrease.GetComponentInChildren<Button>();
             newButton.onClick = new Button.ButtonClickedEvent();
             newButton.onClick.AddListener(() =>
             {
@@ -326,12 +334,12 @@ namespace HS2_SexRobotController
             });
 
             // Create robot stroke multiplier decrease button by instantiating main button, changing it's name, text label, and adding a new listener to handle click events
-            newUIElement = Instantiate(btnTitle, btnTitle.parent);
-            newUIElement.name = "btnConnectRobot";
-            buttonText = newUIElement.GetComponentInChildren<Text>();
-            buttonText.text = "Stroke Multiplier -";
-            buttonText.fontSize = 18;
-            newButton = newUIElement.GetComponentInChildren<Button>();
+            buttonStrokeMultiplierDecrease = Instantiate(btnTitle, btnTitle.parent);
+            buttonStrokeMultiplierDecrease.name = "btnStrokeMultiplierDecrease";
+            buttonStrokeMultiplierDecreaseText = buttonStrokeMultiplierDecrease.GetComponentInChildren<Text>();
+            buttonStrokeMultiplierDecreaseText.text = "Stroke Multiplier -";
+            buttonStrokeMultiplierDecreaseText.fontSize = 18;
+            newButton = buttonStrokeMultiplierDecrease.GetComponentInChildren<Button>();
             newButton.onClick = new Button.ButtonClickedEvent();
             newButton.onClick.AddListener(() =>
             {
@@ -432,6 +440,60 @@ namespace HS2_SexRobotController
             }
         }
 
+        public async Task UpdateConnectRobotButton()
+        {
+            await Task.Run(async () =>
+            {
+                if (serialPort.IsOpen)
+                {
+                    buttonConnectRobotText.text = "Connected.";
+                }
+                else
+                {
+                    buttonConnectRobotText.text = "Can't Connect.";
+                }
+                await Task.Delay(1000);
+                buttonConnectRobotText.text = "Connect Robot";
+            });
+        }
+
+        public async Task UpdateDisconnectRobotButton()
+        {
+            await Task.Run(async () =>
+            {
+                if (!serialPort.IsOpen)
+                {
+                    buttonDisconnectRobotText.text = "Disconnected.";
+                }
+                else
+                {
+                    buttonDisconnectRobotText.text = "Can't Disconnect.";
+                }
+                await Task.Delay(1000);
+                buttonDisconnectRobotText.text = "Disconnect Robot";
+            });
+        }
+
+        public async Task UpdateStrokeMultiplierIncreaseButton()
+        {
+            await Task.Run(async () =>
+            {
+                buttonStrokeMultiplierIncreaseText.text = robotL0Multiplier.Value.ToString();
+                await Task.Delay(1000);
+                buttonStrokeMultiplierIncreaseText.text = "Stroke Multiplier +";
+            });
+        }
+
+        public async Task UpdateStrokeMultiplierDecreaseButton()
+        {
+            await Task.Run(async () =>
+            {
+                buttonStrokeMultiplierDecreaseText.text = robotL0Multiplier.Value.ToString();
+                await Task.Delay(1000);
+                buttonStrokeMultiplierDecreaseText.text = "Stroke Multiplier -";
+            });
+        }
+
         public void Update()
         {
             // Check if connect robot button was clicked
@@ -447,6 +509,8 @@ namespace HS2_SexRobotController
                 {
                     serialPortConnected.Value = true;
                 }
+
+                Task task = UpdateConnectRobotButton();
             }
 
             // Check if connect robot button was clicked
@@ -462,6 +526,8 @@ namespace HS2_SexRobotController
                 {
                     serialPortConnected.Value = false;
                 }
+
+                Task task = UpdateDisconnectRobotButton();
             }
 
             // Check if increase stroke multiplier button was clicked
@@ -470,6 +536,8 @@ namespace HS2_SexRobotController
                 buttonStrokeMultiplierIncreaseClicked = false;
 
                 robotL0Multiplier.Value += robotL0MultiplierStepValue.Value;
+
+                Task task = UpdateStrokeMultiplierIncreaseButton();
 
                 Logger.LogInfo("Stroke multiplier: " + robotL0Multiplier.Value);
             }
@@ -480,6 +548,8 @@ namespace HS2_SexRobotController
                 buttonStrokeMultiplierDecreaseClicked = false;
 
                 robotL0Multiplier.Value -= robotL0MultiplierStepValue.Value;
+
+                Task task = UpdateStrokeMultiplierDecreaseButton();
 
                 Logger.LogInfo("Stroke multiplier: " + robotL0Multiplier.Value);
             }
