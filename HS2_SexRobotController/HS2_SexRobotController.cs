@@ -21,7 +21,7 @@ namespace HS2_SexRobotController
     {
         public const string pluginGUID = "hs2robotics.HS2SexRobotController";
         public const string pluginName = "HS2_SexRobotController";
-        public const string pluginVersion = "1.6";
+        public const string pluginVersion = "1.7";
 
         public static HScene hScene;
         public bool inHScene = false;
@@ -559,6 +559,8 @@ namespace HS2_SexRobotController
             {
                 robotL0Multiplier.Value += robotL0MultiplierStepValue.Value;
 
+                Task task = UpdateStrokeMultiplierIncreaseButton();
+
                 Logger.LogInfo("Stroke multiplier: " + robotL0Multiplier.Value);
             }
 
@@ -566,6 +568,8 @@ namespace HS2_SexRobotController
             if (strokeLengthMultiplierDecrease.Value.IsDown())
             {
                 robotL0Multiplier.Value -= robotL0MultiplierStepValue.Value;
+
+                Task task = UpdateStrokeMultiplierDecreaseButton();
 
                 Logger.LogInfo("Stroke multiplier: " + robotL0Multiplier.Value);
             }
@@ -588,11 +592,15 @@ namespace HS2_SexRobotController
                             // Close the serial port connection
                             serialPort.Close();
 
+                            Task task = UpdateDisconnectRobotButton();
+
                             Logger.LogInfo("Serial port " + serialPort.PortName + " has been disconnected.");
                         }
                         catch (Exception e)
                         {
                             serialPortStatus.Value = serialPort.PortName + " port is disconnected.";
+
+                            Task task = UpdateDisconnectRobotButton();
 
                             Logger.LogInfo("Serial port " + serialPort.PortName + " has been disconnected.");
 
@@ -625,11 +633,15 @@ namespace HS2_SexRobotController
 
                             serialPortStatus.Value = "Connected to serial port " + serialPortConfig.Value + ".";
 
+                            Task task = UpdateConnectRobotButton();
+
                             Logger.LogInfo("Connected to serial port " + serialPort.PortName + ".");
                         }
                         else
                         {
                             serialPortStatus.Value = "Error connecting to serial port " + serialPort.PortName + ".";
+
+                            Task task = UpdateDisconnectRobotButton();
 
                             Logger.LogInfo("Error connecting to serial port " + serialPort.PortName + ".");
                         }
@@ -637,6 +649,8 @@ namespace HS2_SexRobotController
                     catch (Exception e)
                     {
                         serialPortStatus.Value = "Error connecting to serial port " + serialPort.PortName + ".";
+
+                        Task task = UpdateDisconnectRobotButton();
 
                         Logger.LogInfo("Error connecting to serial port " + serialPort.PortName + ".");
 
