@@ -1,5 +1,5 @@
 # HS2_SexRobotController
-**Honey Select 2 Sex Robot Controller Plugin v1.6**
+**Honey Select 2 Sex Robot Controller Plugin v1.7**
 
 **Main configuration menu accessed by hitting F1 and then clicking the Plugin settings button**
 
@@ -11,7 +11,7 @@
 ![pluginmenu](https://user-images.githubusercontent.com/93683226/141469532-d0db17df-e333-477b-b0db-08027204de6f.png)
 
 
-**Quick access buttons now give feedback when pressed (especially helpful in VR)**
+**Pressing the hotkeys or the quick access buttons to connect / disconnect your sex robot and to increase / decrease the stroke multiplier show feedback text when pressed (especially helpful in VR)**
 
 ![buttonfeedback](https://user-images.githubusercontent.com/93683226/141486554-17f9b57a-e50f-435d-9612-085e2722fa70.png)
 
