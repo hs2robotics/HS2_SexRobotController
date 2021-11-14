@@ -641,7 +641,7 @@ namespace HS2_SexRobotController
                         {
                             serialPortStatus.Value = "Error connecting to serial port " + serialPort.PortName + ".";
 
-                            Task task = UpdateDisconnectRobotButton();
+                            Task task = UpdateConnectRobotButton();
 
                             Logger.LogInfo("Error connecting to serial port " + serialPort.PortName + ".");
                         }
@@ -650,7 +650,7 @@ namespace HS2_SexRobotController
                     {
                         serialPortStatus.Value = "Error connecting to serial port " + serialPort.PortName + ".";
 
-                        Task task = UpdateDisconnectRobotButton();
+                        Task task = UpdateConnectRobotButton();
 
                         Logger.LogInfo("Error connecting to serial port " + serialPort.PortName + ".");
 
